@@ -1,24 +1,22 @@
-use clap::{command, Arg, ArgAction};
+use clap::Parser;
+
+#[derive(Parser, Debug)]
+struct Args {
+    /// Input
+    #[arg(required(true))]
+    text: Vec<String>,
+
+    ///Flag to print omit newline
+    #[arg(short('n'))]
+    omit_newline: bool,
+}
 
 fn main() {
-    let matches = command!()
-        .arg(Arg::new("text"))
-        .arg(
-            Arg::new("omit-newline")
-                .short('n')
-                .long("omit-newline")
-                .required(false)
-                .action(ArgAction::SetFalse),
-        )
-        .get_matches();
+    let args = Args::parse();
 
-    if let Some(text) = matches.get_one::<String>("text") {
-        if let Some(value) = matches.get_one::<bool>("omit-newline") {
-            if *value {
-                println!("{}", text);
-            } else {
-                print!("{}", text);
-            }
-        }
-    }
+    print!(
+        "{}{}",
+        args.text.join(" "),
+        if args.omit_newline { "" } else { "\n" }
+    )
 }
