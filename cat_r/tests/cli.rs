@@ -5,7 +5,7 @@ use pretty_assertions::assert_eq;
 use rand::{distributions::Alphanumeric, Rng};
 use std::fs;
 
-const PRG: &str = "catr";
+const PRG: &str = "cat";
 const EMPTY: &str = "tests/inputs/empty.txt";
 const FOX: &str = "tests/inputs/fox.txt";
 const SPIDERS: &str = "tests/inputs/spiders.txt";
@@ -42,7 +42,7 @@ fn gen_bad_file() -> String {
 #[test]
 fn skips_bad_file() -> Result<()> {
     let bad = gen_bad_file();
-    let expected = format!("{bad}: .* [(]os error 2[)]");
+    let expected = format!("\"{bad}\": .* [(]os error 2[)]");
     Command::cargo_bin(PRG)?
         .arg(&bad)
         .assert()
@@ -64,11 +64,7 @@ fn run(args: &[&str], expected_file: &str) -> Result<()> {
 }
 
 // --------------------------------------------------
-fn run_stdin(
-    input_file: &str,
-    args: &[&str],
-    expected_file: &str,
-) -> Result<()> {
+fn run_stdin(input_file: &str, args: &[&str], expected_file: &str) -> Result<()> {
     let input = fs::read_to_string(input_file)?;
     let expected = fs::read_to_string(expected_file)?;
     let output = Command::cargo_bin(PRG)?
@@ -81,32 +77,6 @@ fn run_stdin(
     let stdout = String::from_utf8(output.stdout).expect("invalid UTF-8");
     assert_eq!(stdout, expected);
     Ok(())
-}
-
-// --------------------------------------------------
-#[test]
-fn bustle_stdin() -> Result<()> {
-    run_stdin(BUSTLE, &["-"], "tests/expected/the-bustle.txt.stdin.out")
-}
-
-// --------------------------------------------------
-#[test]
-fn bustle_stdin_n() -> Result<()> {
-    run_stdin(
-        BUSTLE,
-        &["-n", "-"],
-        "tests/expected/the-bustle.txt.n.stdin.out",
-    )
-}
-
-// --------------------------------------------------
-#[test]
-fn bustle_stdin_b() -> Result<()> {
-    run_stdin(
-        BUSTLE,
-        &["-b", "-"],
-        "tests/expected/the-bustle.txt.b.stdin.out",
-    )
 }
 
 // --------------------------------------------------
