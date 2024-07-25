@@ -17,10 +17,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: run tests
-    run: |
-      for dir in $(find . -mindepth 1 -maxdepth 1 -type d); do
-        if [ -f "$dir/Cargo.toml" ]; then
-          echo "Running tests in $dir"
-          (cd "$dir" && cargo test --verbose)
-        fi
-      done
+      run: |
+        for dir in $(find . -mindepth 1 -maxdepth 1 -type d); do
+          if [ -f "$dir/Cargo.toml" ]; then
+            echo "Running tests in $dir"
+            (cd "$dir" && cargo test --verbose)
+          fi
+        done
