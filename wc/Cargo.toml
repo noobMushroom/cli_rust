@@ -1,0 +1,25 @@
+[package]
+name = "wc"
+author = "mushroom<mushroom020@proton.me>"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "wcr"
+path = "src/lib.rs"
+
+[[bin]]
+name = "wcr"
+path = "src/bin/main.rs"
+
+
+[dependencies]
+anyhow = "1.0.86"
+clap = { version = "4.5.10", features = ["derive"] }
+
+
+[dev-dependencies]
+predicates = "3.1.0"
+pretty_assertions = "1.4.0"
+rand = "0.8.5"
+assert_cmd = "2.0.14"
